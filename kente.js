@@ -194,7 +194,6 @@ function buildButtons() {
   buttons = [];
   if (micBtn) micBtn.remove();
 
-  
   const btnW   = 138;
   const btnH   = 34;
   const gap    = 8;
@@ -281,7 +280,7 @@ function draw() {
   const figs    = tr.figures;
   const spacing = width / (figs.length + 1);
   figs.forEach((fig, i) => {
-    drawFigure(fig, spacing * (i + 1), height * 0.70 - BOTTOM_BAR * 0.5, currentVol, tr.kente, tr.moveFunc, i);
+    drawFigure(fig, spacing * (i + 1), height * 0.62, currentVol, tr.kente, tr.moveFunc, i);
   });
 
   drawInfoOverlay(tr);
@@ -361,7 +360,7 @@ function drawTorch(x, y, vol) {
 function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   const phase  = (idx / 5) * TWO_PI;
   const mv     = moveFn(idx, frameCount, vol, phase);
-  const sc     = 1.3;
+  const sc     = 0.95;
   const bh     = 50 * sc;
   const hw     = fig.g === 'M' ? 17 * sc : 14 * sc;
   const k0     = palette[idx % palette.length];
@@ -403,17 +402,19 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   pop();
 
   const ll = 28 * sc;
-  fill(fig.skin);
+  fill(fig.skin); stroke(fig.skin); strokeWeight(1);
   if (fig.g === 'M') {
     push(); translate(-8 * sc, bh); rotate(radians(mv.legL));
     rect(-4.5 * sc, 0, 9 * sc, ll); pop();
     push(); translate(8 * sc, bh); rotate(radians(mv.legR));
     rect(-4.5 * sc, 0, 9 * sc, ll); pop();
-    fill('#1a0800');
+    noStroke();
+    fill('#C68642');
     rect(-12 * sc, bh + ll - 4, 13 * sc, 5 * sc);
     rect(  4 * sc, bh + ll - 4, 13 * sc, 5 * sc);
   } else {
-    fill('#1a0800');
+    noStroke();
+    fill('#C68642');
     rect(-8 * sc, bh + bh * 0.6 + 2, 18 * sc, 5 * sc);
   }
 
