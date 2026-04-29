@@ -259,25 +259,24 @@ function getVolume() {
     noiseFloor = max(noiseFloor, raw);
     if (noiseFrames >= 60) {
       // Add 50% headroom so normal room noise never triggers
-      noiseFloor = noiseFloor * 1.5 + 0.003;
+      noiseFloor = noiseFloor * 1.1 + 0.001;
       noiseReady = true;
     }
     smoothedVol = 0;
     return 0;
   }
 
-  // Subtract room noise floor — only count signal above it
   let signal = max(0, raw - noiseFloor);
 
-  // Map signal to 0–1 range
-  // Typical loud music on a laptop mic sits around 0.01–0.08 above floor
-  let mapped = map(signal, 0, 0.06, 0, 1);
+  // Map a very small signal range to full 0-1
+  // 0.008 above floor = full dance (very sensitive to distant sound)
+  let mapped = map(signal, 0, 0.008, 0, 1);
   mapped = constrain(mapped, 0, 1);
 
-  if (mapped > 0.01) {
-    smoothedVol = lerp(smoothedVol, mapped, 0.25);
+  if (mapped > 0.005) {
+    smoothedVol = lerp(smoothedVol, mapped, 0.3);
   } else {
-    smoothedVol = lerp(smoothedVol, 0, 0.6);
+    smoothedVol = lerp(smoothedVol, 0, 0.5);
     if (smoothedVol < 0.005) smoothedVol = 0;
   }
 
@@ -481,7 +480,7 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   pop();
 
   fill(k0);
-  textSize(11 * sc); textAlign(CENTER); textStyle(BOLD);
+  textSize(15 * sc); textAlign(CENTER); textStyle(BOLD);
   const labelY = fig.g === 'M' ? bh + ll + 14 : bh + bh * 0.62 + 16;
   text(fig.role, 0, labelY);
 
