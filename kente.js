@@ -469,13 +469,13 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   ellipse( hr * 0.28, hr * 0.06, 5, 3.6);
   pop();
 
-  // Role label
+  pop();
+
+  // Role label — drawn at fixed mx position, not affected by sway/bob
   fill(255, 255, 255);
   textSize(13 * sc); textAlign(CENTER); textStyle(BOLD);
-  const labelY = fig.g === 'M' ? bh + ll + 16 : bh * 0.95 + ll * 0.6 + 18;
-  text(fig.role, 0, labelY);
-
-  pop();
+  const labelY = baseY + 50 * sc + 32 * sc + 18;
+  text(fig.role, mx, labelY);
 }
 
 function drawDrum(x, y, sc, k0, k1, k2) {
