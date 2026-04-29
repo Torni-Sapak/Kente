@@ -274,7 +274,7 @@ function draw() {
   }
 
   drawTorch(width * 0.10, height * 0.62, currentVol);
-  drawTorch(width * 0.50, height * 0.62, currentVol);
+  drawTorch(width * 0.58, height * 0.62, currentVol);
   drawTorch(width * 0.90, height * 0.62, currentVol);
 
   const figs    = tr.figures;
