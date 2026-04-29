@@ -194,6 +194,7 @@ function buildButtons() {
   buttons = [];
   if (micBtn) micBtn.remove();
 
+  
   const btnW   = 138;
   const btnH   = 34;
   const gap    = 8;
