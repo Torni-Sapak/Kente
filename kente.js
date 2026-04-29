@@ -186,7 +186,6 @@ function setup() {
   angleMode(RADIANS);
   mic = new p5.AudioIn();
   amp = new p5.Amplitude();
-  amp.smoothing(0.8);
   buildButtons();
 }
 
