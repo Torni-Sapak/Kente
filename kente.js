@@ -179,11 +179,6 @@ let micBtn;
 let smoothedVol = 0;
 let currentVol  = 0;
 
-// Noise floor — measured in the first 60 frames after mic starts
-let noiseFloor  = 0;
-let noiseFrames = 0;
-let noiseReady  = false;
-
 const BOTTOM_BAR = 90;
 
 function setup() {
@@ -239,9 +234,6 @@ async function startMic() {
   await userStartAudio();
   mic.start(() => {
     amp.setInput(mic);
-    noiseFloor  = 0;
-    noiseFrames = 0;
-    noiseReady  = false;
     micStarted  = true;
     micBtn.html('🎤 Mic ON');
     micBtn.style('background', '#00A060');
@@ -253,31 +245,14 @@ function getVolume() {
 
   let raw = amp.getLevel();
 
-  // Spend first 60 frames quietly measuring the room noise floor
-  if (!noiseReady) {
-    noiseFrames++;
-    noiseFloor = max(noiseFloor, raw);
-    if (noiseFrames >= 60) {
-      // Add 50% headroom so normal room noise never triggers
-      noiseFloor = noiseFloor * 1.1 + 0.001;
-      noiseReady = true;
-    }
-    smoothedVol = 0;
-    return 0;
-  }
+  // Multiply by 30 so even quiet/distant sound triggers dancing
+  let amplified = constrain(raw * 30, 0, 1);
 
-  let signal = max(0, raw - noiseFloor);
-
-  // Map a very small signal range to full 0-1
-  // 0.008 above floor = full dance (very sensitive to distant sound)
-  let mapped = map(signal, 0, 0.008, 0, 1);
-  mapped = constrain(mapped, 0, 1);
-
-  if (mapped > 0.005) {
-    smoothedVol = lerp(smoothedVol, mapped, 0.3);
+  if (amplified > 0.05) {
+    smoothedVol = lerp(smoothedVol, amplified, 0.4);
   } else {
     smoothedVol = lerp(smoothedVol, 0, 0.5);
-    if (smoothedVol < 0.005) smoothedVol = 0;
+    if (smoothedVol < 0.01) smoothedVol = 0;
   }
 
   return smoothedVol;
@@ -338,13 +313,13 @@ function drawInfoOverlay(tr) {
   textAlign(LEFT);
   text(tr.lineName, width * 0.03, height * 0.21);
 
-  fill(220, 200, 150);
+  fill(255, 255, 255);
   textSize(width * 0.013);
   textStyle(NORMAL);
   textFont('sans-serif');
   text('Inspired by ' + tr.tribeName + ' tradition', width * 0.03, height * 0.21 + width * 0.019);
 
-  fill(140, 120, 85);
+  fill(255, 255, 255);
   text(tr.region, width * 0.03, height * 0.21 + width * 0.034);
 }
 
@@ -479,7 +454,7 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   ellipse( hr * 0.28, hr * 0.06, 5, 3.6);
   pop();
 
-  fill(k0);
+  fill(255, 255, 255);
   textSize(15 * sc); textAlign(CENTER); textStyle(BOLD);
   const labelY = fig.g === 'M' ? bh + ll + 14 : bh + bh * 0.62 + 16;
   text(fig.role, 0, labelY);
@@ -514,7 +489,6 @@ function drawVolumeBar(vol) {
   textSize(13); textStyle(BOLD); textAlign(LEFT);
   let lbl;
   if (!micStarted)              lbl = 'Enable the mic — dancers are waiting';
-  else if (!noiseReady)         lbl = 'Calibrating... stay quiet for 1 second';
   else if (vol === 0)           lbl = 'No sound detected — dancers paused';
   else if (vol < 0.2)           lbl = 'Gentle sway — festival begins';
   else if (vol < 0.45)          lbl = 'Picking up — drums call the crowd';
