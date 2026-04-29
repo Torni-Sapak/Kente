@@ -369,21 +369,51 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   const cx     = mx + mv.sway;
   const by     = baseY + mv.bob;
   const al     = 26 * sc * (mv.armLen || 1.0);
+  const ll     = 32 * sc;
 
   push();
   translate(cx, by);
   noStroke();
 
+  // Left arm
   push(); translate(-hw - 2, 3); rotate(radians(mv.armL));
   fill(fig.skin); rect(-4 * sc, 0, 8 * sc, al); circle(0, al, 8 * sc);
   pop();
 
+  // Right arm
   push(); translate(hw + 2, 3); rotate(radians(mv.armR));
   fill(fig.skin); rect(-4 * sc, 0, 8 * sc, al); circle(0, al, 8 * sc);
   pop();
 
+  // Drum
   if (fig.drum) drawDrum(34 * sc, 36 * sc, sc, k0, k1, k2);
 
+  // Legs — drawn before torso, never affected by torso rotation
+  noStroke();
+  if (fig.g === 'M') {
+    fill(fig.skin);
+    push(); translate(-8 * sc, bh); rotate(radians(mv.legL));
+    rect(-4.5 * sc, 0, 9 * sc, ll); pop();
+    push(); translate(8 * sc, bh); rotate(radians(mv.legR));
+    rect(-4.5 * sc, 0, 9 * sc, ll); pop();
+    // Shoes
+    fill('#C68642');
+    rect(-14 * sc, bh + ll - 3, 14 * sc, 7 * sc);
+    rect(2  * sc, bh + ll - 3, 14 * sc, 7 * sc);
+  } else {
+    // Female — legs peek below skirt
+    fill(fig.skin);
+    push(); translate(-6 * sc, bh * 0.95); rotate(radians(mv.legL));
+    rect(-4 * sc, 0, 8 * sc, ll * 0.6); pop();
+    push(); translate(6 * sc, bh * 0.95); rotate(radians(mv.legR));
+    rect(-4 * sc, 0, 8 * sc, ll * 0.6); pop();
+    // Shoes
+    fill('#C68642');
+    rect(-12 * sc, bh * 0.95 + ll * 0.58, 12 * sc, 6 * sc);
+    rect(1   * sc, bh * 0.95 + ll * 0.58, 12 * sc, 6 * sc);
+  }
+
+  // Torso (rotation only affects upper body)
   push();
   rotate(radians(mv.torso));
   if (fig.g === 'M') {
@@ -395,33 +425,17 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
     fill(k0); rect(-hw, 0, hw * 2, bh * 0.48);
     fill(k1); rect(-hw, bh * 0.17, hw * 2, bh * 0.07);
     const sw2 = hw + 7 * sc;
-    fill(k0); rect(-sw2, bh * 0.48, sw2 * 2, bh * 0.62);
-    fill(k2); rect(-sw2, bh * 0.63, sw2 * 2, bh * 0.07);
-    fill(k1); rect(-sw2, bh * 0.82, sw2 * 2, bh * 0.06);
+    fill(k0); rect(-sw2, bh * 0.48, sw2 * 2, bh * 0.55);
+    fill(k2); rect(-sw2, bh * 0.60, sw2 * 2, bh * 0.07);
+    fill(k1); rect(-sw2, bh * 0.78, sw2 * 2, bh * 0.06);
   }
   pop();
 
-  const ll = 28 * sc;
-  fill(fig.skin); stroke(fig.skin); strokeWeight(1);
-  if (fig.g === 'M') {
-    push(); translate(-8 * sc, bh); rotate(radians(mv.legL));
-    rect(-4.5 * sc, 0, 9 * sc, ll); pop();
-    push(); translate(8 * sc, bh); rotate(radians(mv.legR));
-    rect(-4.5 * sc, 0, 9 * sc, ll); pop();
-    noStroke();
-    fill('#C68642');
-    rect(-12 * sc, bh + ll - 4, 13 * sc, 5 * sc);
-    rect(  4 * sc, bh + ll - 4, 13 * sc, 5 * sc);
-  } else {
-    noStroke();
-    fill('#C68642');
-    rect(-8 * sc, bh + bh * 0.6 + 2, 18 * sc, 5 * sc);
-  }
-
   // Neck
-  fill(fig.skin);
+  fill(fig.skin); noStroke();
   rect(-4 * sc, -8 * sc, 8 * sc, 10 * sc);
 
+  // Head
   const hr = 12 * sc;
   push();
   translate(0, -8 * sc - hr);
@@ -455,9 +469,10 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   ellipse( hr * 0.28, hr * 0.06, 5, 3.6);
   pop();
 
+  // Role label
   fill(255, 255, 255);
-  textSize(15 * sc); textAlign(CENTER); textStyle(BOLD);
-  const labelY = fig.g === 'M' ? bh + ll + 14 : bh + bh * 0.62 + 16;
+  textSize(13 * sc); textAlign(CENTER); textStyle(BOLD);
+  const labelY = fig.g === 'M' ? bh + ll + 16 : bh * 0.95 + ll * 0.6 + 18;
   text(fig.role, 0, labelY);
 
   pop();
