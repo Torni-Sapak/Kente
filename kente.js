@@ -8,17 +8,21 @@ const KENTE_LINES = [
     sky: [26, 13, 0],
     ground: [42, 20, 0],
     kente: ['#D4A017', '#1A5C1A', '#CC2200', '#1A1A1A', '#F5E642', '#8B4513'],
-
     moveFunc: function (idx, t, vol, phase) {
       if (vol <= 0) return { armL: -15, armR: 15, bob: 0, sway: 0, legL: 0, legR: 0, tilt: 0, torso: 0, armLen: 1.0 };
-      let sp = 0.014 + vol * 0.018;              let sweep = sin(t * sp + phase);
+      let sp = 0.014 + vol * 0.018;
+      let sweep = sin(t * sp + phase);
       return {
-        armL:   sweep * (60 + vol * 50),           armR:   -sweep * (55 + vol * 45),          bob:    sin(t * sp * 2 + phase) * (1 + vol * 4),
+        armL:   sweep * (60 + vol * 50),
+        armR:   -sweep * (55 + vol * 45),
+        bob:    sin(t * sp * 2 + phase) * (1 + vol * 4),
         sway:   sin(t * sp * 0.5 + phase) * (1 + vol * 3),
-        legL:   sin(t * sp + phase) * (2 + vol * 6),         legR:   sin(t * sp + phase + PI) * (2 + vol * 6),
+        legL:   sin(t * sp + phase) * (2 + vol * 6),
+        legR:   sin(t * sp + phase + PI) * (2 + vol * 6),
         tilt:   sweep * (3 + vol * 6),
         torso:  sin(t * sp + phase) * (1 + vol * 3),
-        armLen: 1.3 + vol * 0.3                  };
+        armLen: 1.3 + vol * 0.3
+      };
     },
     figures: [
       { skin: '#7B4218', g: 'M', role: 'Chief',   headpiece: true },
@@ -37,16 +41,22 @@ const KENTE_LINES = [
     sky: [13, 5, 5],
     ground: [26, 8, 8],
     kente: ['#CE1126', '#EEEEEE', '#006B3F', '#FCD116', '#111111', '#8B0000'],
-
     moveFunc: function (idx, t, vol, phase) {
       if (vol <= 0) return { armL: 0, armR: 0, bob: 0, sway: 0, legL: 0, legR: 0, tilt: 0, torso: 0, armLen: 1.0 };
-      let sp = 0.06 + vol * 0.14;                let beat = abs(sin(t * sp + phase));       let beat2 = abs(sin(t * sp + phase + PI));
+      let sp = 0.06 + vol * 0.14;
+      let beat  = abs(sin(t * sp + phase));
+      let beat2 = abs(sin(t * sp + phase + PI));
       return {
-        armL:   -80 + beat * (140 + vol * 60),         armR:   -80 + beat2 * (140 + vol * 60),        bob: -beat * (8 + vol * 22),                 sway:   sin(t * sp + phase) * (1 + vol * 2),
-        legL:   beat * (15 + vol * 40),                 legR:   beat2 * (15 + vol * 40),
+        armL:   -80 + beat  * (140 + vol * 60),
+        armR:   -80 + beat2 * (140 + vol * 60),
+        bob:    -beat * (8 + vol * 22),
+        sway:   sin(t * sp + phase) * (1 + vol * 2),
+        legL:   beat  * (15 + vol * 40),
+        legR:   beat2 * (15 + vol * 40),
         tilt:   sin(t * sp * 2 + phase) * (5 + vol * 12),
-        torso:  sin(t * sp * 2 + phase) * (8 + vol * 18), // torso crunch
-        armLen: 0.85                                  };
+        torso:  sin(t * sp * 2 + phase) * (8 + vol * 18),
+        armLen: 0.85
+      };
     },
     figures: [
       { skin: '#6B3A18', g: 'M', role: 'Drummer', drum: true      },
@@ -65,16 +75,21 @@ const KENTE_LINES = [
     sky: [10, 0, 18],
     ground: [18, 0, 31],
     kente: ['#4B0082', '#DAA520', '#2F4F2F', '#8B0000', '#CD853F', '#1a1a6e'],
-
     moveFunc: function (idx, t, vol, phase) {
       if (vol <= 0) return { armL: -70, armR: -70, bob: 0, sway: 0, legL: 0, legR: 0, tilt: 0, torso: -10, armLen: 1.0 };
-      let sp = 0.008 + vol * 0.012;              let glide = sin(t * sp + phase);
+      let sp    = 0.008 + vol * 0.012;
+      let glide = sin(t * sp + phase);
       return {
-        armL:   -(65 + vol * 20) + glide * (5 + vol * 10),         armR:   -(65 + vol * 20) - glide * (5 + vol * 10),
-        bob:    sin(t * sp * 4 + phase) * (0.5 + vol * 2),         sway:   glide * (0.5 + vol * 1.5),
-        legL:   sin(t * sp + phase) * (1 + vol * 4),               legR:   sin(t * sp + phase + PI) * (1 + vol * 4),
+        armL:   -(65 + vol * 20) + glide * (5 + vol * 10),
+        armR:   -(65 + vol * 20) - glide * (5 + vol * 10),
+        bob:    sin(t * sp * 4 + phase) * (0.5 + vol * 2),
+        sway:   glide * (0.5 + vol * 1.5),
+        legL:   sin(t * sp + phase) * (1 + vol * 4),
+        legR:   sin(t * sp + phase + PI) * (1 + vol * 4),
         tilt:   glide * (1 + vol * 2),
-        torso:  -(8 + vol * 12),                                    armLen: 1.5 + vol * 0.2                                   };
+        torso:  -(8 + vol * 12),
+        armLen: 1.5 + vol * 0.2
+      };
     },
     figures: [
       { skin: '#7B4218', g: 'M', role: 'King',   headpiece: true, crown: true },
@@ -93,18 +108,21 @@ const KENTE_LINES = [
     sky: [0, 13, 7],
     ground: [0, 26, 13],
     kente: ['#006B3F', '#FCD116', '#FFFFFF', '#CE1126', '#004A2A', '#228B22'],
-
     moveFunc: function (idx, t, vol, phase) {
       if (vol <= 0) return { armL: 0, armR: 0, bob: 0, sway: 0, legL: 0, legR: 0, tilt: 0, torso: 0, armLen: 1.0 };
-      let sp   = 0.028 + vol * 0.05;
+      let sp    = 0.028 + vol * 0.05;
       let wave  = sin(t * sp + phase);
       let wave2 = sin(t * sp * 2 + phase);
       return {
-        armL:   wave * (30 + vol * 50),           // arms flow side to side
-        armR:   sin(t * sp + phase + PI * 0.7) * (28 + vol * 45),  // offset wave
-        bob:    wave2 * (2 + vol * 5) - vol * 2,        sway:   wave * (4 + vol * 14), legL:   wave * (3 + vol * 10),
+        armL:   wave * (30 + vol * 50),
+        armR:   sin(t * sp + phase + PI * 0.7) * (28 + vol * 45),
+        bob:    wave2 * (2 + vol * 5) - vol * 2,
+        sway:   wave * (4 + vol * 14),
+        legL:   wave * (3 + vol * 10),
         legR:   sin(t * sp + phase + PI * 0.5) * (3 + vol * 10),
-        tilt:   wave2 * (6 + vol * 18),                 torso:  wave * (4 + vol * 10),  armLen: 1.1
+        tilt:   wave2 * (6 + vol * 18),
+        torso:  wave * (4 + vol * 10),
+        armLen: 1.1
       };
     },
     figures: [
@@ -124,16 +142,21 @@ const KENTE_LINES = [
     sky: [0, 5, 16],
     ground: [0, 9, 26],
     kente: ['#1A5C9A', '#FCD116', '#CE1126', '#FFFFFF', '#003366', '#4682B4'],
-
     moveFunc: function (idx, t, vol, phase) {
       if (vol <= 0) return { armL: 0, armR: 0, bob: 0, sway: 0, legL: 0, legR: 0, tilt: 0, torso: 0, armLen: 1.0 };
-      let sp    = 0.08 + vol * 0.2;                 let chaos = sin(t * sp * 3.7 + phase * 2.1);
+      let sp    = 0.08 + vol * 0.2;
+      let chaos = sin(t * sp * 3.7 + phase * 2.1);
       let jump  = max(0, sin(t * sp * 2 + phase));
       let wild  = sin(t * sp * 1.3 + phase + 1.5);
       return {
-        armL:   sin(t * sp * 2.3 + phase) * (50 + vol * 90),             armR:   sin(t * sp * 1.6 + phase + 1.8) * (50 + vol * 85), // different speed
-        bob:    -jump * (10 + vol * 30),                sway:   chaos * (5 + vol * 18), legL:   sin(t * sp * 2 + phase) * (12 + vol * 45),         legR:   sin(t * sp * 2 + phase + PI * 0.6) * (12 + vol * 40),
-        tilt:   chaos * (8 + vol * 25),                 torso:  wild * (6 + vol * 20),
+        armL:   sin(t * sp * 2.3 + phase) * (50 + vol * 90),
+        armR:   sin(t * sp * 1.6 + phase + 1.8) * (50 + vol * 85),
+        bob:    -jump * (10 + vol * 30),
+        sway:   chaos * (5 + vol * 18),
+        legL:   sin(t * sp * 2 + phase) * (12 + vol * 45),
+        legR:   sin(t * sp * 2 + phase + PI * 0.6) * (12 + vol * 40),
+        tilt:   chaos * (8 + vol * 25),
+        torso:  wild * (6 + vol * 20),
         armLen: 1.0 + vol * 0.2
       };
     },
@@ -154,8 +177,12 @@ let buttons = [];
 let micBtn;
 
 let smoothedVol = 0;
-let currentVol = 0;
-let rawVol = 0;
+let currentVol  = 0;
+
+// Noise floor — measured in the first 60 frames after mic starts
+let noiseFloor  = 0;
+let noiseFrames = 0;
+let noiseReady  = false;
 
 const BOTTOM_BAR = 90;
 
@@ -164,6 +191,7 @@ function setup() {
   angleMode(RADIANS);
   mic = new p5.AudioIn();
   amp = new p5.Amplitude();
+  amp.smoothing(0.8);
   buildButtons();
 }
 
@@ -194,9 +222,9 @@ function buildButtons() {
     buttons.push(btn);
   });
 
-  micBtn = createButton('Enable Mic');
-  micBtn.position(windowWidth - 140, btnY);
-  micBtn.size(120, btnH);
+  micBtn = createButton('🎤 Enable Mic');
+  micBtn.position(windowWidth - 150, btnY);
+  micBtn.size(130, btnH);
   micBtn.mousePressed(() => startMic());
   micBtn.style('background', '#006B3F');
   micBtn.style('color', '#fff');
@@ -205,33 +233,54 @@ function buildButtons() {
   micBtn.style('font-size', '12px');
   micBtn.style('font-weight', '600');
   micBtn.style('cursor', 'pointer');
-
 }
 
 async function startMic() {
   await userStartAudio();
   mic.start(() => {
     amp.setInput(mic);
-      micStarted = true;
-    micBtn.html('Mic ON');
+    noiseFloor  = 0;
+    noiseFrames = 0;
+    noiseReady  = false;
+    micStarted  = true;
+    micBtn.html('🎤 Mic ON');
     micBtn.style('background', '#00A060');
   });
 }
 
 function getVolume() {
-  if (!micStarted) { rawVol = 0; return 0; }
+  if (!micStarted) return 0;
 
-  rawVol = amp.getLevel();
+  let raw = amp.getLevel();
 
-  let threshold = 0.05;
-  if (rawVol < threshold) {
-    smoothedVol = lerp(smoothedVol, 0, 0.7);
-    if (smoothedVol < 0.005) smoothedVol = 0;
-    return smoothedVol;
+  // Spend first 60 frames quietly measuring the room noise floor
+  if (!noiseReady) {
+    noiseFrames++;
+    noiseFloor = max(noiseFloor, raw);
+    if (noiseFrames >= 60) {
+      // Add 50% headroom so normal room noise never triggers
+      noiseFloor = noiseFloor * 1.5 + 0.003;
+      noiseReady = true;
+    }
+    smoothedVol = 0;
+    return 0;
   }
 
-  let boosted = map(rawVol, threshold, threshold + 0.3, 0, 1, true);
-  smoothedVol = lerp(smoothedVol, constrain(boosted, 0, 1), 0.3);
+  // Subtract room noise floor — only count signal above it
+  let signal = max(0, raw - noiseFloor);
+
+  // Map signal to 0–1 range
+  // Typical loud music on a laptop mic sits around 0.01–0.08 above floor
+  let mapped = map(signal, 0, 0.06, 0, 1);
+  mapped = constrain(mapped, 0, 1);
+
+  if (mapped > 0.01) {
+    smoothedVol = lerp(smoothedVol, mapped, 0.25);
+  } else {
+    smoothedVol = lerp(smoothedVol, 0, 0.6);
+    if (smoothedVol < 0.005) smoothedVol = 0;
+  }
+
   return smoothedVol;
 }
 
@@ -258,7 +307,7 @@ function draw() {
   const figs    = tr.figures;
   const spacing = width / (figs.length + 1);
   figs.forEach((fig, i) => {
-    drawFigure(fig, spacing * (i + 1), height * 0.74 - BOTTOM_BAR * 0.5, currentVol, tr.kente, tr.moveFunc, i);
+    drawFigure(fig, spacing * (i + 1), height * 0.70 - BOTTOM_BAR * 0.5, currentVol, tr.kente, tr.moveFunc, i);
   });
 
   drawInfoOverlay(tr);
@@ -338,7 +387,8 @@ function drawTorch(x, y, vol) {
 function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   const phase  = (idx / 5) * TWO_PI;
   const mv     = moveFn(idx, frameCount, vol, phase);
-  const sc     = 0.82;                    const bh     = 50 * sc;
+  const sc     = 1.3;
+  const bh     = 50 * sc;
   const hw     = fig.g === 'M' ? 17 * sc : 14 * sc;
   const k0     = palette[idx % palette.length];
   const k1     = palette[(idx + 2) % palette.length];
@@ -346,15 +396,19 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   const cx     = mx + mv.sway;
   const by     = baseY + mv.bob;
   const al     = 26 * sc * (mv.armLen || 1.0);
+
   push();
   translate(cx, by);
   noStroke();
+
   push(); translate(-hw - 2, 3); rotate(radians(mv.armL));
   fill(fig.skin); rect(-4 * sc, 0, 8 * sc, al); circle(0, al, 8 * sc);
   pop();
+
   push(); translate(hw + 2, 3); rotate(radians(mv.armR));
   fill(fig.skin); rect(-4 * sc, 0, 8 * sc, al); circle(0, al, 8 * sc);
   pop();
+
   if (fig.drum) drawDrum(34 * sc, 36 * sc, sc, k0, k1, k2);
 
   push();
@@ -373,6 +427,7 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
     fill(k1); rect(-sw2, bh * 0.82, sw2 * 2, bh * 0.06);
   }
   pop();
+
   const ll = 28 * sc;
   fill(fig.skin);
   if (fig.g === 'M') {
@@ -391,6 +446,7 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   // Neck
   fill(fig.skin);
   rect(-4 * sc, -8 * sc, 8 * sc, 10 * sc);
+
   const hr = 12 * sc;
   push();
   translate(0, -8 * sc - hr);
@@ -423,8 +479,9 @@ function drawFigure(fig, mx, baseY, vol, palette, moveFn, idx) {
   ellipse(-hr * 0.28, hr * 0.06, 5, 3.6);
   ellipse( hr * 0.28, hr * 0.06, 5, 3.6);
   pop();
+
   fill(k0);
-  textSize(9 * sc); textAlign(CENTER); textStyle(BOLD);
+  textSize(11 * sc); textAlign(CENTER); textStyle(BOLD);
   const labelY = fig.g === 'M' ? bh + ll + 14 : bh + bh * 0.62 + 16;
   text(fig.role, 0, labelY);
 
@@ -457,19 +514,18 @@ function drawVolumeBar(vol) {
   fill(255, 255, 255);
   textSize(13); textStyle(BOLD); textAlign(LEFT);
   let lbl;
-  if (!micStarted) lbl = 'Enable the mic — dancers are waiting';
-  else if (vol === 0)    lbl = 'No sound detected — dancers paused';
-  else if (vol < 0.2)    lbl = 'Gentle sway — festival begins';
-  else if (vol < 0.45)   lbl = 'Picking up — drums call the crowd';
-  else if (vol < 0.7)    lbl = 'Full dance — celebration rises';
-  else                   lbl = 'FRENZY — maximum energy!';
+  if (!micStarted)              lbl = 'Enable the mic — dancers are waiting';
+  else if (!noiseReady)         lbl = 'Calibrating... stay quiet for 1 second';
+  else if (vol === 0)           lbl = 'No sound detected — dancers paused';
+  else if (vol < 0.2)           lbl = 'Gentle sway — festival begins';
+  else if (vol < 0.45)          lbl = 'Picking up — drums call the crowd';
+  else if (vol < 0.7)           lbl = 'Full dance — celebration rises';
+  else                          lbl = 'FRENZY — maximum energy!';
   text(lbl, 12, textY);
-
-
 
   const maxBarW = width * 0.25;
   const barW    = vol * maxBarW;
-  const barX    = width - maxBarW - 130;
+  const barX    = width - maxBarW - 150;
   const c = vol < 0.35 ? color('#006B3F') : vol < 0.7 ? color('#D4A017') : color('#CE1126');
   fill(c); noStroke();
   rect(barX, barY, barW, 7, 4);
